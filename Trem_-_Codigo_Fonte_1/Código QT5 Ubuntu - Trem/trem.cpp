@@ -36,6 +36,15 @@ void Trem::run(){
             emit updateGUI(ID, x,y);    //Emite um sinal
             break;
         case 3: //Trem 3
+            if (y == 50 && x > 140)
+                x-=10;
+            else if (x == 140 && y < 170) //esqSup
+                y+=10;
+            else if (x < 680 && y == 170)
+                x+=10;
+            else
+                y-=10;
+            emit updateGUI(ID, x,y);
             break;
         default:
             break;
