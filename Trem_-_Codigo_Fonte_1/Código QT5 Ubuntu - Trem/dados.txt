@@ -1,0 +1,9 @@
+informações interseções
+    trem B -  esqSup - 140, 170 *inicial
+              esqInf - 140, 290
+              dirSup - 410, 170
+              dirInf - 410, 290
+    trem C -  esqSup - 410, 170 *inicial
+              esqInf - 410, 290
+              dirSup - 680, 170
+              dirInf - 680, 290
