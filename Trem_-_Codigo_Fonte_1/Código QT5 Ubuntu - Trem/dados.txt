@@ -11,3 +11,15 @@ informações interseções
               esqInf - 410, 290
               dirSup - 680, 170
               dirInf - 680, 290
+    trem D -  esqSup - 040, 290 *inicial
+              esqInf - 040, 410
+              dirSup - 310, 290
+              dirInf - 310, 410
+    trem E -  esqSup - 310, 290 *inicial
+              esqInf - 310, 410
+              dirSup - 580, 290
+              dirInf - 580, 410
+    trem F -  esqSup - 580, 290 *inicial
+              esqInf - 580, 410
+              dirSup - 850, 290
+              dirInf - 850, 410

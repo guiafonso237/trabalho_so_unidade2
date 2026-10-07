@@ -12,43 +12,25 @@ Trem::Trem(int ID, int x, int y){
 //Função a ser executada após executar trem->START
 void Trem::run(){
     while(true){
-        switch(ID){
-        case 1:     //Trem 1 caso esteja na direita superior
-            if (y == 170 && x > 140)
-                x-=10;
-            else if (x == 140 && y < 290)
-                y+=10;
-            else if (x < 410 && y == 290)
-                x+=10;
-            else
-                y-=10;
-            emit updateGUI(ID, x,y);    //Emite um sinal
-            break;
-        case 2:     //Trem 2 caso esteja na direita superior
-            if (y == 170 && x > 410)
-                x-=10;
-            else if (x == 410 && y < 290) //esqSup
-                y+=10;
-            else if (x < 680 && y == 290)
-                x+=10;
-            else
-                y-=10;
-            emit updateGUI(ID, x,y);    //Emite um sinal
-            break;
-        case 3: //Trem 3
-            if (y == 50 && x > 140)
-                x-=10;
-            else if (x == 140 && y < 170) //esqSup
-                y+=10;
-            else if (x < 680 && y == 170)
-                x+=10;
-            else
-                y-=10;
-            emit updateGUI(ID, x,y);
-            break;
-        default:
-            break;
+        // Linha superior: move para a esquerda
+        if (y == quadrado.esqSup.y && x > quadrado.esqSup.x) {
+            x -= 10;
         }
+        // Linha esquerda: move para baixo
+        else if (x == quadrado.esqSup.x && y < quadrado.esqInf.y) {
+            y += 10;
+        }
+        // Linha inferior: move para a direita
+        else if (y == quadrado.esqInf.y && x < quadrado.dirInf.x) {
+            x += 10;
+        }
+        // Linha direita: move para cima
+        else {
+            y -= 10;
+        }
+
+        // Emite o sinal com o ID próprio deste trem para atualizar a interface gráfica
+        emit updateGUI(ID, x, y);
         msleep(velocidade);
     }
 }

@@ -10,9 +10,21 @@
  * Para parar a execução da função RUN da thread, basta executar a função TERMINATE.
  *
 */
+class Ponto{
+public:
+    int x;
+    int y;
+};
+
+class Quadrado{
+public:
+    Ponto esqSup, esqInf, dirSup, dirInf;
+};
+
 class Trem: public QThread{
  Q_OBJECT
 public:
+    Quadrado quadrado;
     Trem(int,int,int);  //construtor
     void run();         //função a ser executada pela thread
 
