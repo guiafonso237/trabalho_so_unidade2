@@ -31,7 +31,12 @@ void Trem::run(){
 
         // Emite o sinal com o ID próprio deste trem para atualizar a interface gráfica
         emit updateGUI(ID, x, y);
-        msleep(velocidade);
+        if(velocidade == 200){
+            msleep(100000);
+        }else{
+            msleep(velocidade);
+        }
+
     }
 }
 

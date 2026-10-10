@@ -108,6 +108,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(trem6,SIGNAL(updateGUI(int,int,int)),SLOT(updateInterface(int,int,int)));
 
 
+    trem1->start();
+    trem2->start();
+    trem3->start();
+    trem4->start();
+    trem5->start();
+    trem6->start();
+
 
 }
 
@@ -145,15 +152,6 @@ MainWindow::~MainWindow()
 /*
  * Ao clicar, trens começam execução
  */
-void MainWindow::on_pushButton_clicked()
-{
-    trem1->start();
-    trem2->start();
-    trem3->start();
-    trem4->start();
-    trem5->start();
-    trem6->start();
-}
 
 /*
  * Ao clicar, trens param execução
@@ -167,3 +165,9 @@ void MainWindow::on_pushButton_2_clicked()
     trem5->terminate();
     trem6->terminate();
 }
+
+void MainWindow::on_slider_velocidade_trem1_valueChanged(int value){
+    trem1->velocidade = ui->slider_velocidade_trem1->sliderPosition();
+
+}
+
