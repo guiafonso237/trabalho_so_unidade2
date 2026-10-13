@@ -171,3 +171,42 @@ void MainWindow::on_slider_velocidade_trem1_valueChanged(int value){
 
 }
 
+
+void MainWindow::on_slider_velocidade_trem2_valueChanged(int value)
+{
+    trem2->velocidade = ui->slider_velocidade_trem2->sliderPosition();
+}
+
+
+void MainWindow::on_slider_velocidade_trem3_valueChanged(int value)
+{
+    trem3->velocidade = ui->slider_velocidade_trem3->sliderPosition();
+}
+
+
+void MainWindow::on_slider_velocidade_trem4_valueChanged(int value)
+{
+    trem4->velocidade = ui->slider_velocidade_trem4->sliderPosition();
+
+}
+
+
+void MainWindow::on_slider_velocidade_trem5_valueChanged(int value)
+{
+    trem5->velocidade = ui->slider_velocidade_trem5->sliderPosition();
+
+}
+
+
+void MainWindow::on_slider_velocidade_trem6_valueChanged(int value)
+{
+    trem6->velocidade = ui->slider_velocidade_trem6->sliderPosition();
+
+}
+
+
+void MainWindow::on_slider_velocidade_todos_trem_valueChanged(int value)
+{
+
+}
+

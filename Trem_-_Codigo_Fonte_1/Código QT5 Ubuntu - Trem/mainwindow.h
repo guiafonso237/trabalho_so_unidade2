@@ -25,6 +25,18 @@ private slots:
 
     void on_slider_velocidade_trem1_valueChanged(int value);
 
+    void on_slider_velocidade_trem2_valueChanged(int value);
+
+    void on_slider_velocidade_trem3_valueChanged(int value);
+
+    void on_slider_velocidade_trem4_valueChanged(int value);
+
+    void on_slider_velocidade_trem5_valueChanged(int value);
+
+    void on_slider_velocidade_trem6_valueChanged(int value);
+
+    void on_slider_velocidade_todos_trem_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
 
