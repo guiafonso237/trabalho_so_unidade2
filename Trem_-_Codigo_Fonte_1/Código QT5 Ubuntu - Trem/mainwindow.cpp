@@ -167,46 +167,75 @@ void MainWindow::on_pushButton_2_clicked()
 }
 
 void MainWindow::on_slider_velocidade_trem1_valueChanged(int value){
-    trem1->velocidade = ui->slider_velocidade_trem1->sliderPosition();
+    if (trem1 != nullptr) {
+        trem1->alterarVelocidade(value);
+    }
+
 
 }
 
 
 void MainWindow::on_slider_velocidade_trem2_valueChanged(int value)
 {
-    trem2->velocidade = ui->slider_velocidade_trem2->sliderPosition();
+    if (trem2 != nullptr) {
+        trem2->alterarVelocidade(value);
+    }
 }
 
 
 void MainWindow::on_slider_velocidade_trem3_valueChanged(int value)
 {
-    trem3->velocidade = ui->slider_velocidade_trem3->sliderPosition();
+    if (trem3 != nullptr) {
+        trem3->alterarVelocidade(value);
+    }
 }
 
 
 void MainWindow::on_slider_velocidade_trem4_valueChanged(int value)
 {
-    trem4->velocidade = ui->slider_velocidade_trem4->sliderPosition();
+    if (trem4 != nullptr) {
+        trem4->alterarVelocidade(value);
+    }
 
 }
 
 
 void MainWindow::on_slider_velocidade_trem5_valueChanged(int value)
 {
-    trem5->velocidade = ui->slider_velocidade_trem5->sliderPosition();
+    if (trem5 != nullptr) {
+        trem5->alterarVelocidade(value);
+    }
 
 }
 
 
 void MainWindow::on_slider_velocidade_trem6_valueChanged(int value)
 {
-    trem6->velocidade = ui->slider_velocidade_trem6->sliderPosition();
+    if (trem6 != nullptr) {
+        trem6->alterarVelocidade(value);
+    }
 
 }
 
 
 void MainWindow::on_slider_velocidade_todos_trem_valueChanged(int value)
 {
+    trem1->alterarVelocidade(value);
+    trem2->alterarVelocidade(value);
+    trem3->alterarVelocidade(value);
+    trem4->alterarVelocidade(value);
+    trem5->alterarVelocidade(value);
+    trem6->alterarVelocidade(value);
+        // ... até ao trem 6
+
+        // Atualiza visualmente a posição das barrinhas individuais para acompanhar o mestre
+    ui->slider_velocidade_trem1->setValue(value);
+    ui->slider_velocidade_trem2->setValue(value);
+    ui->slider_velocidade_trem3->setValue(value);
+    ui->slider_velocidade_trem4->setValue(value);
+    ui->slider_velocidade_trem5->setValue(value);
+    ui->slider_velocidade_trem6->setValue(value);
+        // ...
 
 }
 

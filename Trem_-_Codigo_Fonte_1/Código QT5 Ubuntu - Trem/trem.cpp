@@ -9,10 +9,28 @@ Trem::Trem(int ID, int x, int y){
     velocidade = 100;
 }
 
+void Trem::alterarVelocidade(int velocidadeM){
+    velocidade = velocidadeM;
+
+    if (velocidadeM == 0) {
+        pausado = true; // Sinaliza para o trem parar
+    } else if (pausado) {
+        pausado = false;
+        condicao_pausa.wakeAll(); // Acorda a thread imediatamente
+    }
+}
 //Função a ser executada após executar trem->START
-void Trem::run(){
-    while(true){
-        // Linha superior: move para a esquerda
+void Trem::run() {
+    while (true) {
+        // --- VERIFICAÇÃO DE PAUSA ---
+        mutex_pausa.lock();
+        if (pausado) {
+            condicao_pausa.wait(&mutex_pausa); // A thread "dorme" aqui sem gastar CPU
+        }
+        mutex_pausa.unlock();
+
+        // --- LÓGICA DE MOVIMENTO ---
+        // Seus if/else de movimento (x e y) vêm aqui
         if (y == quadrado.esqSup.y && x > quadrado.esqSup.x) {
             x -= 10;
         }
@@ -29,14 +47,10 @@ void Trem::run(){
             y -= 10;
         }
 
-        // Emite o sinal com o ID próprio deste trem para atualizar a interface gráfica
         emit updateGUI(ID, x, y);
-        if(velocidade == 200){
-            msleep(100000);
-        }else{
-            msleep(velocidade);
-        }
 
+        int tempo_dormir = 210 - velocidade;
+        msleep(tempo_dormir);
     }
 }
 
