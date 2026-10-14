@@ -4,7 +4,6 @@
 #include <QThread>
 #include <QMutex>
 #include <QWaitCondition>
-#include <vector>
 
 
 /*
@@ -54,7 +53,6 @@ public:
     void static pararTrem(int id);
     void alterarVelocidade(int velocidadeM);
    int velocidade;
-    std::vector<Ponto> pontosCriticos;
 };
 
 #endif // TREM_H

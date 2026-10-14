@@ -14,7 +14,6 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
@@ -31,7 +30,6 @@ public:
     QLabel *label_trilho2;
     QLabel *label_trilho3;
     QLabel *label_trilho4;
-    QPushButton *pushButton_2;
     QLabel *label_trilho4_2;
     QLabel *label_trilho1_2;
     QLabel *label_trilho2_2;
@@ -95,9 +93,6 @@ public:
         label_trilho4->setObjectName(QString::fromUtf8("label_trilho4"));
         label_trilho4->setGeometry(QRect(140, 170, 21, 137));
         label_trilho4->setStyleSheet(QString::fromUtf8("QLabel { background: yellow}"));
-        pushButton_2 = new QPushButton(centralWidget);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setGeometry(QRect(10, 80, 98, 27));
         label_trilho4_2 = new QLabel(centralWidget);
         label_trilho4_2->setObjectName(QString::fromUtf8("label_trilho4_2"));
         label_trilho4_2->setGeometry(QRect(680, 170, 21, 137));
@@ -258,7 +253,6 @@ public:
         label_trilho3->raise();
         label_trilho4->raise();
         tremB->raise();
-        pushButton_2->raise();
         label_trilho1_2->raise();
         tremC->raise();
         label_trilho1_3->raise();
@@ -299,7 +293,6 @@ public:
         label_trilho2->setText(QString());
         label_trilho3->setText(QString());
         label_trilho4->setText(QString());
-        pushButton_2->setText(QCoreApplication::translate("MainWindow", "Parar", nullptr));
         label_trilho4_2->setText(QString());
         label_trilho1_2->setText(QString());
         label_trilho2_2->setText(QString());
