@@ -1,6 +1,19 @@
 #include "trem.h"
 #include <QtCore>
 
+
+
+QMutex mutex1; // Região entre A e B
+QMutex mutex2; // Região entre A e C
+QMutex mutex3; // Região entre B e C
+QMutex mutex4; // Região entre B e D
+QMutex mutex5; // Região entre B e E
+QMutex mutex6; // Região entre C e E
+QMutex mutex7; // Região entre C e F
+QMutex mutex8; // Região entre D e E
+QMutex mutex9; // Região entre E e F
+
+
 //Construtor
 Trem::Trem(int ID, int x, int y){
     this->ID = ID;
@@ -22,10 +35,14 @@ void Trem::alterarVelocidade(int velocidadeM){
 //Função a ser executada após executar trem->START
 void Trem::run() {
     while (true) {
-        // --- VERIFICAÇÃO DE PAUSA ---
+        if(ID == 1){
+            if(Ponto(x, y) == pontosCriticos[0]){
+                alterarVelocidade(0); //teste para o primeiro
+            }
+        }
         mutex_pausa.lock();
         if (pausado) {
-            condicao_pausa.wait(&mutex_pausa); // A thread "dorme" aqui sem gastar CPU
+            condicao_pausa.wait(&mutex_pausa);
         }
         mutex_pausa.unlock();
 
@@ -53,7 +70,4 @@ void Trem::run() {
         msleep(tempo_dormir);
     }
 }
-
-
-
 

@@ -4,6 +4,8 @@
 #include <QThread>
 #include <QMutex>
 #include <QWaitCondition>
+#include <vector>
+
 
 /*
  * Classe Trem herda QThread
@@ -16,6 +18,14 @@ class Ponto{
 public:
     int x;
     int y;
+    Ponto(){}
+    Ponto(int x_, int y_){
+        this->x = x_;
+        this->y = y_;
+    }
+    bool operator==(const Ponto& outro) const{
+        return ((outro.x == this->x) && (outro.y == this->y));
+    }
 };
 
 class Quadrado{
@@ -41,8 +51,10 @@ private:
 protected:
     void run() override;
 public:
+    void static pararTrem(int id);
     void alterarVelocidade(int velocidadeM);
-   int velocidade;  //Velocidade. É o tempo de dormir em milisegundos entre a mudança de posição do trem
+   int velocidade;
+    std::vector<Ponto> pontosCriticos;
 };
 
 #endif // TREM_H

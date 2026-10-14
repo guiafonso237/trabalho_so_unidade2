@@ -19,8 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     trem1->quadrado.esqSup.x = 140;
     trem1->quadrado.esqSup.y = 50;
 
-    trem1->quadrado.esqInf.x = 140;
-    trem1->quadrado.esqInf.y = 170;
+    trem1->quadrado.esqInf.x = 140; //
+    trem1->quadrado.esqInf.y = 170; //
 
     trem1->quadrado.dirSup.x = 680;
     trem1->quadrado.dirSup.y = 50;
@@ -92,6 +92,44 @@ MainWindow::MainWindow(QWidget *parent) :
 
     trem6->quadrado.dirInf.x = 850;
     trem6->quadrado.dirInf.y = 410;
+
+
+    //Trem 1 (A)
+    trem1->pontosCriticos.push_back(Ponto(140, 170)); // Início da Região 1 (com Trem 2)
+    trem1->pontosCriticos.push_back(Ponto(410, 170)); // Fim da Região 1 / Início da Região 2 (com Trem 3)
+    trem1->pontosCriticos.push_back(Ponto(680, 170)); // Fim da Região 2
+
+    // Trem 2 (B) - Interseções com Regiões 1, 3, 4 e 5
+    trem2->pontosCriticos.push_back(Ponto(140, 170)); // Fim da Região 1
+    trem2->pontosCriticos.push_back(Ponto(410, 170)); // Início da Região 1 / Fim da Região 3
+    trem2->pontosCriticos.push_back(Ponto(410, 290)); // Início da Região 3 / Fim da Região 5
+    trem2->pontosCriticos.push_back(Ponto(310, 290)); // Início da Região 5 / Fim da Região 4
+    trem2->pontosCriticos.push_back(Ponto(140, 290)); // Início da Região 4
+
+    // Trem 3 (C) - Interseções com Regiões 2, 3, 6 e 7
+    trem3->pontosCriticos.push_back(Ponto(410, 170)); // Fim da Região 2 / Início da Região 3
+    trem3->pontosCriticos.push_back(Ponto(680, 170)); // Início da Região 2
+    trem3->pontosCriticos.push_back(Ponto(680, 290)); // Início da Região 7
+    trem3->pontosCriticos.push_back(Ponto(580, 290)); // Fim da Região 7 / Início da Região 6
+    trem3->pontosCriticos.push_back(Ponto(410, 290)); // Fim da Região 6 / Fim da Região 3
+
+    // Trem 4 (D) - Interseções com Regiões 4 e 8
+    trem4->pontosCriticos.push_back(Ponto(140, 290)); // Fim da Região 4
+    trem4->pontosCriticos.push_back(Ponto(310, 290)); // Início da Região 4 / Fim da Região 8
+    trem4->pontosCriticos.push_back(Ponto(310, 410)); // Início da Região 8
+
+    // Trem 5 (E) - Interseções com Regiões 5, 6, 8 e 9
+    trem5->pontosCriticos.push_back(Ponto(310, 290)); // Fim da Região 5 / Início da Região 8
+    trem5->pontosCriticos.push_back(Ponto(410, 290)); // Início da Região 5 / Fim da Região 6
+    trem5->pontosCriticos.push_back(Ponto(580, 290)); // Início da Região 6 / Fim da Região 9
+    trem5->pontosCriticos.push_back(Ponto(580, 410)); // Início da Região 9
+    trem5->pontosCriticos.push_back(Ponto(310, 410)); // Fim da Região 8
+
+    // Trem 6 (F) - Interseções com Regiões 7 e 9
+    trem6->pontosCriticos.push_back(Ponto(580, 290)); // Fim da Região 7 / Início da Região 9
+    trem6->pontosCriticos.push_back(Ponto(680, 290)); // Início da Região 7
+    trem6->pontosCriticos.push_back(Ponto(580, 410)); // Fim da Região 9
+
 
     /*
      * Conecta o sinal UPDATEGUI à função UPDATEINTERFACE.
@@ -236,6 +274,5 @@ void MainWindow::on_slider_velocidade_todos_trem_valueChanged(int value)
     ui->slider_velocidade_trem5->setValue(value);
     ui->slider_velocidade_trem6->setValue(value);
         // ...
-
 }
 
