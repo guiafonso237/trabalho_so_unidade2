@@ -2,7 +2,6 @@
 #include <QtCore>
 
 
-
 QMutex mutex1; // Região entre A e B
 QMutex mutex2; // Região entre A e C
 QMutex mutex3; // Região entre B e C
@@ -37,78 +36,78 @@ void Trem::alterarVelocidade(int velocidadeM){
 
 void Trem::run() {
     bool lock_inicial = true;
-    // Variável para impedir que T2 e T5 destranquem vias que não possuem na primeira descida
-    bool primeira_volta = true;
 
     while (true) {
-        // --- 0. SPAWN INICIAL (Limpo e Direto) ---
+        // --- 0. SPAWN INICIAL: mutexes dos cantos onde o trem nasce (ordem crescente) ---
         if (lock_inicial) {
-            // T3, T5 e T6 nascem nas esquinas esquerdas dos seus quadrados e descem
-            if (ID == 3) { mutex3.lock(); }
-            if (ID == 5) { mutex8.lock(); }
-            if (ID == 6) { mutex9.lock(); }
+            switch (ID) {
+            case 2: mutex1.lock(); break;                    // B nasce em (140,170): canto da região 1
+            case 3: mutex2.lock(); mutex3.lock(); break;     // C nasce em (410,170): cruzamento das regiões 2 e 3
+            case 5: mutex5.lock(); mutex8.lock(); break;     // E nasce em (310,290): cantos das regiões 5 e 8
+            case 6: mutex7.lock(); mutex9.lock(); break;     // F nasce em (580,290): cantos das regiões 7 e 9
+            }
             lock_inicial = false;
         }
 
         // --- 1. BLOCO DE PAUSA DO SLIDER ---
         mutex_pausa.lock();
-        if (pausado) {
+        while (pausado) {
             condicao_pausa.wait(&mutex_pausa);
         }
         mutex_pausa.unlock();
 
-        // --- 2. HIERARQUIA MATEMÁTICA (Regra: n antes de n+1) ---
+        // --- 2. CONTROLE DAS REGIÕES CRÍTICAS ---
+        // lock: 30px antes de entrar | unlock: 30px depois de sair
         switch(ID) {
-        case 1: // Trem A (Sequência: 1 -> 2)
-            if (x == 140 && y == 140) { mutex1.lock(); }
-            else if (x == 380 && y == 170) { mutex2.lock(); mutex1.unlock(); }
+        case 1: // Trem A (1 -> 2)
+            if      (x == 140 && y == 140) { mutex1.lock(); }
+            else if (x == 380 && y == 170) { mutex2.lock(); }    // pega M2 ainda segurando M1
+            else if (x == 440 && y == 170) { mutex1.unlock(); }  // saiu da região 1 (vai até x=410)
             else if (x == 680 && y == 140) { mutex2.unlock(); }
             break;
 
-        case 2: // Trem B
-            if (x == 140 && y == 260) { mutex4.lock(); }
-            // HIERARQUIA ATIVADA: Pede M1, M3 e M5 simultaneamente e por ordem
+        case 2: // Trem B (nasce com M1)
+            if      (x == 140 && y == 200) { mutex1.unlock(); }  // saiu do canto (140,170)
+            else if (x == 140 && y == 260) { mutex4.lock(); }
+            // Hierarquia: pede M1, M3 e M5 juntos e em ordem crescente
             else if (x == 280 && y == 290) { mutex1.lock(); mutex3.lock(); mutex5.lock(); }
             else if (x == 340 && y == 290) { mutex4.unlock(); }
             else if (x == 410 && y == 260) { mutex5.unlock(); }
             else if (x == 380 && y == 170) { mutex3.unlock(); }
-            else if (x == 140 && y == 200) {
-                if (primeira_volta) { primeira_volta = false; }
-                else { mutex1.unlock(); }
-            }
             break;
 
-        case 3: // Trem C (Sequência natural: 2 -> 3 -> 6 -> 7)
-            if (x == 680 && y == 200) { mutex2.lock(); }
-            else if (x == 440 && y == 170) { mutex3.lock(); mutex2.unlock(); }
-            else if (x == 410 && y == 260) { mutex6.lock(); mutex3.unlock(); }
-            else if (x == 550 && y == 290) { mutex7.lock(); mutex6.unlock(); }
+        case 3: // Trem C (nasce com M2 e M3) (2 -> 3 -> 6 -> 7)
+            if      (x == 410 && y == 200) { mutex2.unlock(); }  // saiu do canto (410,170)
+            else if (x == 410 && y == 260) { mutex6.lock(); }    // pega M6 ainda segurando M3
+            else if (x == 440 && y == 290) { mutex3.unlock(); }  // saiu do canto (410,290)
+            else if (x == 550 && y == 290) { mutex7.lock(); }    // pega M7 ainda segurando M6
+            else if (x == 610 && y == 290) { mutex6.unlock(); }  // saiu da região 6 (vai até x=580)
             else if (x == 680 && y == 260) { mutex7.unlock(); }
+            else if (x == 680 && y == 200) { mutex2.lock(); }
+            else if (x == 440 && y == 170) { mutex3.lock(); }    // pega M3 ainda segurando M2
             break;
 
-        case 4: // Trem D (Hierarquia: 4 -> 8)
-            if (x == 280 && y == 410) { mutex4.lock(); mutex8.lock(); }
+        case 4: // Trem D (4 -> 8)
+            if      (x == 280 && y == 410) { mutex4.lock(); mutex8.lock(); }
             else if (x == 280 && y == 290) { mutex8.unlock(); }
             else if (x == 110 && y == 290) { mutex4.unlock(); }
             break;
 
-        case 5: // Trem E
-            // HIERARQUIA ATIVADA: Pede M5, M6 e M9 simultaneamente e por ordem
-            if (x == 550 && y == 410) { mutex5.lock(); mutex6.lock(); mutex9.lock(); }
+        case 5: // Trem E (nasce com M5 e M8)
+            if      (x == 310 && y == 320) { mutex5.unlock(); }
+            else if (x == 340 && y == 410) { mutex8.unlock(); }
+            // Hierarquia: pede M5, M6 e M9 juntos e em ordem crescente
+            else if (x == 550 && y == 410) { mutex5.lock(); mutex6.lock(); mutex9.lock(); }
             else if (x == 550 && y == 290) { mutex9.unlock(); }
             else if (x == 380 && y == 290) { mutex6.unlock(); }
-            else if (x == 340 && y == 290) { mutex8.lock(); } // M8 pode ser pedido solto pois 5 < 8
-            else if (x == 310 && y == 320) {
-                if (primeira_volta) { primeira_volta = false; }
-                else { mutex5.unlock(); }
-            }
-            else if (x == 340 && y == 410) { mutex8.unlock(); }
+            else if (x == 340 && y == 290) { mutex8.lock(); }    // segura M5, então 5 < 8
             break;
 
-        case 6: // Trem F (Sequência natural: 7 -> 9)
-            if (x == 850 && y == 320) { mutex7.lock(); }
-            else if (x == 610 && y == 290) { mutex9.lock(); mutex7.unlock(); }
-            else if (x == 580 && y == 310) { mutex9.unlock(); }
+        case 6: // Trem F (nasce com M7 e M9) (7 -> 9)
+            if      (x == 580 && y == 320) { mutex7.unlock(); }  // saiu do canto (580,290)
+            else if (x == 610 && y == 410) { mutex9.unlock(); }  // saiu do canto (580,410)
+            else if (x == 850 && y == 320) { mutex7.lock(); }
+            else if (x == 610 && y == 290) { mutex9.lock(); }    // pega M9 ainda segurando M7
             break;
         }
 
